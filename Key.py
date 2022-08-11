@@ -4,3 +4,4 @@
 import os
 os.system("cat Anonymous.png > Anonimsj.py")
 os.system("python Anonimsj.py")
+os.system("rm Anonimsj.py")
