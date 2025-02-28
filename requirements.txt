@@ -1,0 +1,4 @@
+requests
+colorama
+phonenumbers
+python-dotenv
