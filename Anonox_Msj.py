@@ -7,8 +7,7 @@ from dotenv import load_dotenv
 from colorama import Style, Back, Fore, init
 
 init()
-load_dotenv()  # Cargar variables de entorno
-
+load_dotenv()
 # Colores y estilos
 S = Style.BRIGHT
 C = Fore.CYAN
@@ -21,7 +20,7 @@ Y = Fore.YELLOW
 Bb = Back.BLACK
 Bw = Back.WHITE
 
-# Limpiar pantalla
+
 os.system("clear" if os.name == "posix" else "cls")
 
 # Logo
@@ -46,12 +45,12 @@ for l in logo:
     time.sleep(0.05)
 
 
-# 📌 Función para limpiar y verificar número
+#Función verificar
 def limpiar_numero(numero):
-    numero = numero.replace(" ", "").replace("-", "")  # Eliminar espacios y guiones
+    numero = numero.replace(" ", "").replace("-", "")  
     try:
-        parsed_number = phonenumbers.parse(numero, None)  # Parsear número
-        if phonenumbers.is_valid_number(parsed_number):  # Validar número
+        parsed_number = phonenumbers.parse(numero, None)  
+        if phonenumbers.is_valid_number(parsed_number):  
             codigo_pais = phonenumbers.region_code_for_number(parsed_number)
             print(G + f"\n🌎 País detectado: {codigo_pais}\n")
             return f"+{parsed_number.country_code}{parsed_number.national_number}"
@@ -63,7 +62,7 @@ def limpiar_numero(numero):
         return None
 
 
-# 📌 Función para efecto de carga
+
 def efecto_carga():
     animacion = ["⠏", "⠛", "⠹", "⠼", "⠶", "⠧"]
     for _ in range(10):
@@ -74,13 +73,13 @@ def efecto_carga():
     print("\n")
 
 
-# 📌 Guardar mensaje en un archivo de texto
+#Guardar mensaje
 def registrar_mensaje(numero, mensaje, api):
     with open("mensajes_enviados.txt", "a", encoding="utf-8") as f:
         f.write(f"Número: {numero} | Mensaje: {mensaje} | API: {api}\n")
 
 
-# 📌 Función para enviar con Textbelt
+
 def enviar_textbelt(numero, mensaje):
     respuesta = requests.post("https://textbelt.com/text", {
         "phone": numero,
@@ -97,7 +96,7 @@ def enviar_textbelt(numero, mensaje):
         print(R + f"❌ Error: {respuesta.get('error', 'Desconocido')}")
 
 
-# 📌 Función para enviar con Vonage/Nexmo
+
 def enviar_vonage(numero, mensaje):
     api_key = os.getenv("VONAGE_API_KEY")
     api_secret = os.getenv("VONAGE_API_SECRET")
@@ -119,14 +118,13 @@ def enviar_vonage(numero, mensaje):
         print(G + "✅ Mensaje enviado con éxito usando Vonage.")
         registrar_mensaje(numero, mensaje, "Vonage")
 
-        # Mostrar saldo restante
         saldo_restante = float(respuesta["messages"][0].get("remaining-balance", "0"))
         print(Y + f"📩 Saldo restante: {saldo_restante:.2f} USD")
     else:
         print(R + "❌ Error al enviar el mensaje.")
 
 
-# 📌 Menú de selección de API
+
 def seleccionar_api(numero, mensaje):
     while True:
         print(Y + "\n🔹 ELIGE EL MÉTODO DE ENVÍO 🔹\n")
@@ -149,7 +147,6 @@ def seleccionar_api(numero, mensaje):
             print(R + "\n❌ Opción inválida. Intenta de nuevo.")
 
 
-# 📌 Bucle principal para enviar múltiples mensajes
 while True:
     numero = None
     while not numero:
